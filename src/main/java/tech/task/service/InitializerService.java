@@ -8,10 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InitializerService {
-    DeleteRedundantRecordsService deleteRedundantOrders = new DeleteRedundantRecordsService();
-
     public List<Record> initialize() {
-        List<Record> records = new LinkedList<Record>();
+        List<Record> records = new LinkedList<>();
 
         Record firstRecord = new Record();
         firstRecord.setOrder(Order.BUY);
@@ -62,7 +60,6 @@ public class InitializerService {
         records.add(fifthRecord);
         records.add(sixthRecord);
 
-        return deleteRedundantOrders.getClearRecords(records);
+        return records;
     }
 }
-
