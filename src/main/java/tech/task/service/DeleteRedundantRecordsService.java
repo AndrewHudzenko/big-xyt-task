@@ -5,7 +5,7 @@ import tech.task.model.OperationType;
 import java.util.List;
 
 public class DeleteRedundantRecordsService {
-    public List<Order> getClearRecords(List<Order> list) {
+    public void clearRecords(List<Order> list) {
         List<Order> orders = list;
         for (Order order : orders) {
             if (order.getType().equals(OperationType.REMOVE)) {
@@ -18,6 +18,5 @@ public class DeleteRedundantRecordsService {
                 }
             }
         }
-        return orders;
     }
 }
