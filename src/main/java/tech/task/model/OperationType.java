@@ -1,6 +1,6 @@
 package tech.task.model;
 
-public enum Type {
+public enum OperationType {
     ADD,
     REMOVE;
 }

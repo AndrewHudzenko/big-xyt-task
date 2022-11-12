@@ -1,49 +1,52 @@
 package tech.task.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import tech.task.model.OrderType;
 import tech.task.model.Order;
-import tech.task.model.Record;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 public class FindBetterPricesService {
-    LinkedList<Record> buyRecords = new LinkedList<>();
-    LinkedList<Record> sellRecords = new LinkedList<>();
+    private final Logger logger = LogManager.getLogger(FindBetterPricesService.class);
+    LinkedList<Order> buyOrders = new LinkedList<>();
+    LinkedList<Order> sellOrders = new LinkedList<>();
 
-    public void getRecordWithBetterPrice(List<Record> records) {
-        for (Record record : records) {
-            if (record.getOrder().equals(Order.BUY)) {
-                buyRecords.add(record);
+    public void getRecordWithBetterPrice(List<Order> orders) {
+        for (Order order : orders) {
+            if (order.getOrder().equals(OrderType.BUY)) {
+                buyOrders.add(order);
             }
-            if (record.getOrder().equals(Order.SELL)) {
-                sellRecords.add(record);
+            if (order.getOrder().equals(OrderType.SELL)) {
+                sellOrders.add(order);
             }
-            Record recordWithBestBuyPrice = buyRecords.getFirst();
-            for (Record record1 : buyRecords) {
-                if (record1.getPrice().compareTo(recordWithBestBuyPrice.getPrice()) < 0) {
-                    recordWithBestBuyPrice = record1;
+            Order orderWithBestBuyPrice = buyOrders.getFirst();
+            for (Order order1 : buyOrders) {
+                if (order1.getPrice().compareTo(orderWithBestBuyPrice.getPrice()) < 0) {
+                    orderWithBestBuyPrice = order1;
                 }
             }
 
-            Record recordWithBestSellPrice = buyRecords.getFirst();
-            for (Record record2 : sellRecords) {
-                if (record2.getPrice().compareTo(recordWithBestSellPrice.getPrice()) > 0) {
-                    recordWithBestSellPrice = record2;
+            Order orderWithBestSellPrice = buyOrders.getFirst();
+            for (Order order2 : sellOrders) {
+                if (order2.getPrice().compareTo(orderWithBestSellPrice.getPrice()) > 0) {
+                    orderWithBestSellPrice = order2;
                 }
             }
-            System.out.println(System.lineSeparator()
+            logger.info(System.lineSeparator()
                     + "The sum of record with better price to BUY was: "
-                    + recordWithBestBuyPrice
+                    + orderWithBestBuyPrice
                     .getPrice()
-                    .multiply(BigDecimal.valueOf(recordWithBestBuyPrice.getQuantity()))
+                    .multiply(BigDecimal.valueOf(orderWithBestBuyPrice.getQuantity()))
                     + ", price: "
-                    + recordWithBestBuyPrice.getPrice()
+                    + orderWithBestBuyPrice.getPrice()
                     + System.lineSeparator()
                     + "The sum of record with better price to SELL was: "
-                    + recordWithBestSellPrice
+                    + orderWithBestSellPrice
                     .getPrice()
-                    .multiply(BigDecimal.valueOf(recordWithBestSellPrice.getQuantity()))
+                    .multiply(BigDecimal.valueOf(orderWithBestSellPrice.getQuantity()))
                     + ", price: "
-                    + recordWithBestSellPrice.getPrice());
+                    + orderWithBestSellPrice.getPrice());
         }
     }
 }
